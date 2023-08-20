@@ -20,15 +20,13 @@ ruleTester.run('vue-no-reset-props', rule, {
     {
       filename: 'test.vue',
       code: `
-        <template>
-          <div>
-           
-            <div v-text="prop1.a = 123"></div>           
-          </div>
-        </template>
         <script>
           export default {
-            props: ['foo', 'prop1']
+            props: ['foo', 'prop1', 'prop2'],
+            created() {
+              this.prop1.a = 123;
+              delete this.prop2.name;
+            }
           }
         </script>
       `

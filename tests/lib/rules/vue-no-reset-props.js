@@ -1,5 +1,5 @@
 /**
- * @fileoverview disallow mutation of component props
+ * @fileoverview disallow reset of component props
  * @author 2018 Armano
  */
 'use strict'
@@ -17,6 +17,27 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('vue-no-reset-props', rule, {
   valid: [
+    {
+      filename: 'test.vue',
+      code: `
+        <template>
+          <div>
+           
+            <div v-text="prop1.a = 123"></div>           
+          </div>
+        </template>
+        <script>
+          export default {
+            props: ['foo', 'prop1']
+          }
+        </script>
+      `
+    },
+  ],
+
+  invalid: [],
+
+  valid1: [
     {
       filename: 'test.vue',
       code: `
@@ -123,7 +144,7 @@ ruleTester.run('vue-no-reset-props', rule, {
             methods: {
               openModal() {
                 this.$emit('someEvent', this.todo)
-                const a = this.items.slice(0).push('something') // no mutation because of \`slice(0)\`
+                const a = this.items.slice(0).push('something') // no reset because of \`slice(0)\`
               }
             }
           }
@@ -416,7 +437,7 @@ ruleTester.run('vue-no-reset-props', rule, {
     }
   ],
 
-  invalid: [
+  invalid1: [
     {
       filename: 'test.vue',
       code: `
@@ -441,31 +462,31 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "prop1" prop.',
+          message: 'Unexpected reset of "prop1" prop.',
           line: 4
         },
         {
-          message: 'Unexpected mutation of "prop2" prop.',
+          message: 'Unexpected reset of "prop2" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "prop3" prop.',
+          message: 'Unexpected reset of "prop3" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "prop5" prop.',
+          message: 'Unexpected reset of "prop5" prop.',
           line: 8
         },
         {
-          message: 'Unexpected mutation of "prop6" prop.',
+          message: 'Unexpected reset of "prop6" prop.',
           line: 9
         },
         {
-          message: 'Unexpected mutation of "prop7" prop.',
+          message: 'Unexpected reset of "prop7" prop.',
           line: 10
         },
         {
-          message: 'Unexpected mutation of "prop9" prop.',
+          message: 'Unexpected reset of "prop9" prop.',
           line: 12
         }
       ]
@@ -490,8 +511,8 @@ ruleTester.run('vue-no-reset-props', rule, {
         </script>
       `,
       errors: [
-        'Unexpected mutation of "prop1" prop.',
-        'Unexpected mutation of "prop5" prop.'
+        'Unexpected reset of "prop1" prop.',
+        'Unexpected reset of "prop5" prop.'
       ]
     },
     {
@@ -511,9 +532,9 @@ ruleTester.run('vue-no-reset-props', rule, {
         </script>
       `,
       errors: [
-        'Unexpected mutation of "prop1" prop.',
-        'Unexpected mutation of "prop2" prop.',
-        'Unexpected mutation of "prop3" prop.'
+        'Unexpected reset of "prop1" prop.',
+        'Unexpected reset of "prop2" prop.',
+        'Unexpected reset of "prop3" prop.'
       ]
     },
     {
@@ -535,19 +556,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "prop1" prop.',
+          message: 'Unexpected reset of "prop1" prop.',
           line: 4
         },
         {
-          message: 'Unexpected mutation of "prop2" prop.',
+          message: 'Unexpected reset of "prop2" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "prop3" prop.',
+          message: 'Unexpected reset of "prop3" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "prop4" prop.',
+          message: 'Unexpected reset of "prop4" prop.',
           line: 7
         }
       ]
@@ -580,19 +601,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "items" prop.',
+          message: 'Unexpected reset of "items" prop.',
           line: 16
         },
         {
-          message: 'Unexpected mutation of "todo" prop.',
+          message: 'Unexpected reset of "todo" prop.',
           line: 17
         },
         {
-          message: 'Unexpected mutation of "items" prop.',
+          message: 'Unexpected reset of "items" prop.',
           line: 18
         },
         {
-          message: 'Unexpected mutation of "todo" prop.',
+          message: 'Unexpected reset of "todo" prop.',
           line: 19
         }
       ]
@@ -614,9 +635,9 @@ ruleTester.run('vue-no-reset-props', rule, {
         </script>
       `,
       errors: [
-        'Unexpected mutation of "foo" prop.',
-        'Unexpected mutation of "bar" prop.',
-        'Unexpected mutation of "baz" prop.'
+        'Unexpected reset of "foo" prop.',
+        'Unexpected reset of "bar" prop.',
+        'Unexpected reset of "baz" prop.'
       ]
     },
     {
@@ -640,7 +661,7 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "prop" prop.',
+          message: 'Unexpected reset of "prop" prop.',
           line: 8
         }
       ]
@@ -665,11 +686,11 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "prop" prop.',
+          message: 'Unexpected reset of "prop" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "prop" prop.',
+          message: 'Unexpected reset of "prop" prop.',
           line: 7
         }
       ]
@@ -697,15 +718,15 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "prop" prop.',
+          message: 'Unexpected reset of "prop" prop.',
           line: 4
         },
         {
-          message: 'Unexpected mutation of "prop" prop.',
+          message: 'Unexpected reset of "prop" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "prop" prop.',
+          message: 'Unexpected reset of "prop" prop.',
           line: 10
         }
       ]
@@ -742,27 +763,27 @@ ruleTester.run('vue-no-reset-props', rule, {
       options: [{ shallowOnly: true }],
       errors: [
         {
-          message: 'Unexpected mutation of "prop1" prop.',
+          message: 'Unexpected reset of "prop1" prop.',
           line: 4
         },
         {
-          message: 'Unexpected mutation of "prop2" prop.',
+          message: 'Unexpected reset of "prop2" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "prop5" prop.',
+          message: 'Unexpected reset of "prop5" prop.',
           line: 8
         },
         {
-          message: 'Unexpected mutation of "prop6" prop.',
+          message: 'Unexpected reset of "prop6" prop.',
           line: 9
         },
         {
-          message: 'Unexpected mutation of "prop10" prop.',
+          message: 'Unexpected reset of "prop10" prop.',
           line: 13
         },
         {
-          message: 'Unexpected mutation of "prop10" prop.',
+          message: 'Unexpected reset of "prop10" prop.',
           line: 22
         }
       ]
@@ -785,19 +806,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "b" prop.',
+          message: 'Unexpected reset of "b" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "c" prop.',
+          message: 'Unexpected reset of "c" prop.',
           line: 7
         },
         {
-          message: 'Unexpected mutation of "d" prop.',
+          message: 'Unexpected reset of "d" prop.',
           line: 8
         }
       ]
@@ -822,31 +843,31 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "b" prop.',
+          message: 'Unexpected reset of "b" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "c" prop.',
+          message: 'Unexpected reset of "c" prop.',
           line: 7
         },
         {
-          message: 'Unexpected mutation of "c" prop.',
+          message: 'Unexpected reset of "c" prop.',
           line: 9
         },
         {
-          message: 'Unexpected mutation of "c" prop.',
+          message: 'Unexpected reset of "c" prop.',
           line: 10
         },
         {
-          message: 'Unexpected mutation of "d" prop.',
+          message: 'Unexpected reset of "d" prop.',
           line: 11
         },
         {
-          message: 'Unexpected mutation of "d" prop.',
+          message: 'Unexpected reset of "d" prop.',
           line: 12
         }
       ]
@@ -868,19 +889,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "b" prop.',
+          message: 'Unexpected reset of "b" prop.',
           line: 7
         },
         {
-          message: 'Unexpected mutation of "c" prop.',
+          message: 'Unexpected reset of "c" prop.',
           line: 8
         }
       ]
@@ -901,19 +922,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "b" prop.',
+          message: 'Unexpected reset of "b" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "c" prop.',
+          message: 'Unexpected reset of "c" prop.',
           line: 7
         },
         {
-          message: 'Unexpected mutation of "d" prop.',
+          message: 'Unexpected reset of "d" prop.',
           line: 8
         }
       ]
@@ -929,7 +950,7 @@ ruleTester.run('vue-no-reset-props', rule, {
           }
         </script>
       `,
-      errors: ['Unexpected mutation of "[a]" prop.']
+      errors: ['Unexpected reset of "[a]" prop.']
     },
     {
       filename: 'test.vue',
@@ -942,7 +963,7 @@ ruleTester.run('vue-no-reset-props', rule, {
           }
         </script>
       `,
-      errors: ['Unexpected mutation of "[a]" prop.']
+      errors: ['Unexpected reset of "[a]" prop.']
     },
 
     {
@@ -958,7 +979,7 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "[foo]" prop.',
+          message: 'Unexpected reset of "[foo]" prop.',
           line: 7
         }
       ]
@@ -978,11 +999,11 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "value" prop.',
+          message: 'Unexpected reset of "value" prop.',
           line: 3
         },
         {
-          message: 'Unexpected mutation of "value" prop.',
+          message: 'Unexpected reset of "value" prop.',
           line: 4
         }
       ]
@@ -999,7 +1020,7 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "value" prop.',
+          message: 'Unexpected reset of "value" prop.',
           line: 6
         }
       ]
@@ -1016,7 +1037,7 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "value" prop.',
+          message: 'Unexpected reset of "value" prop.',
           line: 6
         }
       ]
@@ -1036,7 +1057,7 @@ ruleTester.run('vue-no-reset-props', rule, {
       },
       errors: [
         {
-          message: 'Unexpected mutation of "value" prop.',
+          message: 'Unexpected reset of "value" prop.',
           line: 6
         }
       ]
@@ -1063,19 +1084,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       options: [{ shallowOnly: true }],
       errors: [
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "b" prop.',
+          message: 'Unexpected reset of "b" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "d" prop.',
+          message: 'Unexpected reset of "d" prop.',
           line: 8
         },
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 11
         }
       ]
@@ -1106,19 +1127,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       `,
       errors: [
         {
-          message: 'Unexpected mutation of "bar" prop.',
+          message: 'Unexpected reset of "bar" prop.',
           line: 4
         },
         {
-          message: 'Unexpected mutation of "window" prop.',
+          message: 'Unexpected reset of "window" prop.',
           line: 5
         },
         {
-          message: 'Unexpected mutation of "Infinity" prop.',
+          message: 'Unexpected reset of "Infinity" prop.',
           line: 6
         },
         {
-          message: 'Unexpected mutation of "obj" prop.',
+          message: 'Unexpected reset of "obj" prop.',
           line: 18
         }
       ]
@@ -1146,19 +1167,19 @@ ruleTester.run('vue-no-reset-props', rule, {
       options: [{ shallowOnly: true }],
       errors: [
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 3
         },
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 4
         },
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 7
         },
         {
-          message: 'Unexpected mutation of "a" prop.',
+          message: 'Unexpected reset of "a" prop.',
           line: 15
         }
       ]
